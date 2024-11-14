@@ -1,0 +1,5 @@
+templates
+dist
+logs
+node_modules
+.nx

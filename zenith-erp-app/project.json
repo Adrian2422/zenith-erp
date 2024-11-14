@@ -47,9 +47,22 @@
     },
     "test": {
       "executor": "@analogjs/vitest-angular:test",
-      "outputs": [
-        "{projectRoot}/coverage"
-      ]
+      "outputs": ["{projectRoot}/coverage"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["zenith-erp-app/**/*.ts"],
+        "fix": true
+      }
+    },
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write ./",
+        "cwd": "zenith-erp-app",
+        "paths": ["**/*.{ts,js,json,scss,html}"]
+      }
     }
   },
   "tags": [],

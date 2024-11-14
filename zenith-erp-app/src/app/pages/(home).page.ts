@@ -3,12 +3,9 @@ import { Component } from '@angular/core';
 import { AnalogWelcomeComponent } from './analog-welcome.component';
 
 @Component({
-  selector: 'zenith-erp-app-home',
+  selector: 'zenith-home',
   standalone: true,
   imports: [AnalogWelcomeComponent],
-  template: `
-     <zenith-erp-app-analog-welcome/>
-  `,
+  template: ` <zenith-analog-welcome /> `,
 })
-export default class HomeComponent {
-}
+export default class HomeComponent {}

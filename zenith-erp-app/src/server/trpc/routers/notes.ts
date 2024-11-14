@@ -8,10 +8,11 @@ export const noteRouter = router({
     .input(
       z.object({
         note: z.string(),
-      })
+      }),
     )
     .mutation(
-      async ({ input }) => await db.insert(notes).values({ note: input.note }).returning()
+      async ({ input }) =>
+        await db.insert(notes).values({ note: input.note }).returning(),
     ),
   list: publicProcedure.query(async () => {
     const selectedNotes = await db.select().from(notes);
@@ -21,7 +22,10 @@ export const noteRouter = router({
     .input(
       z.object({
         id: z.number(),
-      })
+      }),
     )
-    .mutation(async ({ input }) => await db.delete(notes).where(eq(notes.id, input.id)).returning()),
+    .mutation(
+      async ({ input }) =>
+        await db.delete(notes).where(eq(notes.id, input.id)).returning(),
+    ),
 });
