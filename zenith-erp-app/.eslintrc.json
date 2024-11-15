@@ -20,8 +20,24 @@
             "prefix": "zenith",
             "style": "kebab-case"
           }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "suffixes": ["Component", "Page"]
+          }
+        ],
+        "@angular-eslint/sort-lifecycle-methods": [
+          "error"
+        ],
+        "@angular-eslint/no-empty-lifecycle-method": [
+          "error"
+        ],
+        "@angular-eslint/no-duplicates-in-metadata-arrays": [
+          "error"
         ]
       },
+
       "extends": [
         "eslint:recommended",
         "plugin:@nx/angular",
