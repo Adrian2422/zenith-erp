@@ -25,6 +25,19 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write .",
+        "paths": ["**/*.{ts,js,json}"]
+      }
+    },
+    "db:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate"
+      }
+    },
     "docker-build": {
       "dependsOn": ["build"],
       "command": "docker build -f apps/server/Dockerfile . -t server"
