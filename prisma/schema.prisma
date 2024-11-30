@@ -12,21 +12,22 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["staff"]
+  schemas  = ["staff", "hr"]
 }
 
 model User {
-  userId       Int           @id @default(autoincrement()) @map("user_id")
-  email        String        @unique
-  password     String
-  role         Roles         @default(EMPLOYEE)
-  permissions  Permissions[] @default([USER_READ_SELF])
-  status       Status        @default(INACTIVE)
-  createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt @map("updated_at")
-  address      Address?
-  personalInfo PersonalInfo?
-  setting      Setting?
+  userId          Int              @id @default(autoincrement()) @map("user_id")
+  email           String           @unique
+  password        String
+  role            Roles            @default(EMPLOYEE)
+  permissions     Permissions[]    @default([USER_READ_SELF])
+  status          Status           @default(INACTIVE)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  address         Address?
+  personalInfo    PersonalInfo?
+  setting         Setting?
+  employeeProfile EmployeeProfile?
 
   @@map("users")
   @@schema("staff")
@@ -112,4 +113,147 @@ enum Language {
   PL
 
   @@schema("staff")
+}
+
+model EmployeeProfile {
+  employeeId Int  @id @default(autoincrement()) @map("employee_id")
+  userId     Int  @unique @map("user_id")
+  user       User @relation(fields: [userId], references: [userId])
+
+  firstName     String    @map("first_name")
+  lastName      String    @map("last_name")
+  middleName    String?   @map("middle_name")
+  preferredName String?   @map("preferred_name")
+  dateOfBirth   DateTime? @map("date_of_birth")
+  gender        String?
+  nationality   String?
+  maritalStatus String?   @map("marital_status")
+
+  personalEmail                String? @map("personal_email")
+  phoneNumber                  String? @map("phone_number")
+  emergencyContactName         String? @map("emergency_contact_name")
+  emergencyContactRelationship String? @map("emergency_contact_relationship")
+  emergencyContactPhone        String? @map("emergency_contact_phone")
+
+  hireDate         DateTime  @map("hire_date")
+  employmentType   String    @map("employment_type")
+  employmentStatus Status    @default(INACTIVE) @map("employment_status")
+  probationEndDate DateTime? @map("probation_end_date")
+
+  departmentId Int?        @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [departmentId])
+
+  positionId Int?      @map("position_id")
+  position   Position? @relation(fields: [positionId], references: [positionId])
+
+  managerId        Int?              @map("manager_id")
+  manager          EmployeeProfile?  @relation("manager_to_employee", fields: [managerId], references: [employeeId])
+  managedEmployees EmployeeProfile[] @relation("manager_to_employee")
+
+  baseSalary     Decimal? @map("base_salary")
+  salaryCurrency Currency @default(PLN) @map("salary_currency")
+
+  payGrade           PayGrade? @relation(fields: [payGradePayGradeId], references: [payGradeId])
+  payGradePayGradeId Int?
+
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+  EmploymentHistory EmploymentHistory[]
+
+  @@map("employee_profiles")
+  @@schema("hr")
+}
+
+model Department {
+  departmentId       Int     @id @default(autoincrement()) @map("department_id")
+  departmentCode     String  @unique @map("department_code")
+  departmentName     String  @map("department_name")
+  parentDepartmentId Int?    @map("parent_department_id")
+  departmentHeadId   Int?    @map("department_head_id")
+  description        String?
+
+  employees         EmployeeProfile[]
+  positions         Position[]
+  employmentHistory EmploymentHistory[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("departments")
+  @@schema("hr")
+}
+
+model Position {
+  positionId    Int        @id @default(autoincrement()) @map("position_id")
+  positionTitle String     @map("position_title")
+  departmentId  Int        @map("department_id")
+  department    Department @relation(fields: [departmentId], references: [departmentId])
+
+  payGrade          PayGrade[]
+  employees         EmployeeProfile[]
+  employmentHistory EmploymentHistory[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("positions")
+  @@schema("hr")
+}
+
+model EmploymentHistory {
+  historyId Int @id @default(autoincrement()) @map("history_id")
+
+  employeeId Int             @map("employee_id")
+  employee   EmployeeProfile @relation(fields: [employeeId], references: [employeeId])
+
+  departmentId Int?        @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [departmentId])
+
+  positionId Int?      @map("position_id")
+  position   Position? @relation(fields: [positionId], references: [positionId])
+
+  startDate DateTime  @map("start_date")
+  endDate   DateTime? @map("end_date")
+
+  reasonForChange String? @map("reason_for_change")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("employment_history")
+  @@schema("hr")
+}
+
+model PayGrade {
+  payGradeId Int @id @default(autoincrement()) @map("pay_grade_id")
+
+  gradeCode String @unique @map("grade_code")
+  gradeName String @map("grade_name")
+
+  minSalary Decimal @map("min_salary")
+  maxSalary Decimal @map("max_salary")
+
+  description String?
+
+  requiredExperience Int?    @map("required_experience")
+  requiredEducation  String? @map("required_education")
+
+  position           Position? @relation(fields: [positionPositionId], references: [positionId])
+  positionPositionId Int?
+
+  employeeProfile EmployeeProfile[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("pay_grades")
+  @@schema("hr")
+}
+
+enum Currency {
+  PLN
+  USD
+  EUR
+  GBP
+
+  @@schema("hr")
 }

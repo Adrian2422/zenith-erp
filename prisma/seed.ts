@@ -24,6 +24,9 @@ async function main(): Promise<void> {
 
   generateAdmin()
     .then(() => generateEmployees())
+    .then(() => generateDepartments())
+    .then(() => generatePositions())
+    .then(() => generatePayGrades())
     .catch((error) => console.log(error.message));
 }
 
@@ -136,6 +139,42 @@ async function generateEmployees() {
       },
     });
   }
+}
+
+async function generatePayGrades() {
+  await prisma.payGrade.create({
+    data: {
+      gradeCode: 'p1',
+      gradeName: 'physical_1',
+      minSalary: 3000,
+      maxSalary: 5000,
+      description: faker.lorem.paragraph(),
+      requiredExperience: 0,
+    },
+  });
+}
+
+async function generateDepartments() {
+  await prisma.department.create({
+    data: {
+      departmentCode: 'prod',
+      departmentName: 'production',
+      description: faker.lorem.paragraph(),
+    },
+  });
+}
+
+async function generatePositions() {
+  await prisma.position.create({
+    data: {
+      positionTitle: 'junior operator',
+      department: {
+        connect: {
+          departmentId: 1,
+        },
+      },
+    },
+  });
 }
 
 function randomIntFromInterval(min: number, max: number) {
