@@ -73,6 +73,9 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
+    "format": {
+      "command": "npx prettier . --write"
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

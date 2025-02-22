@@ -8,5 +8,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'client';
+  public readonly title = 'client';
 }
