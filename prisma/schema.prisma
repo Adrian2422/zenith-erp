@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["staff"]
+}
+
+model User {
+  userId       Int           @id @default(autoincrement()) @map("user_id")
+  email        String        @unique
+  password     String
+  role         Roles         @default(EMPLOYEE)
+  permissions  Permissions[] @default([USER_READ_SELF])
+  status       Status        @default(INACTIVE)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  address      Address?
+  personalInfo PersonalInfo?
+  setting      Setting?
+
+  @@map("users")
+  @@schema("staff")
+}
+
+model PersonalInfo {
+  personalInfoId Int    @id @default(autoincrement()) @map("personal_info_id")
+  firstName      String @map("first_name")
+  lastName       String @map("last_name")
+  phone          String
+  user           User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId         Int    @unique @map("user_id")
+
+  @@map("personal_infos")
+  @@schema("staff")
+}
+
+model Address {
+  addressId  Int     @id @default(autoincrement()) @map("address_id")
+  country    String
+  city       String
+  street     String
+  postalCode String  @map("postal_code")
+  buildingNo String? @map("building_no")
+  localNo    String? @map("local_no")
+  user       User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId     Int     @unique @map("user_id")
+
+  @@map("addresses")
+  @@schema("staff")
+}
+
+model Setting {
+  settingId Int      @id @default(autoincrement()) @map("setting_id")
+  theme     Theme    @default(LIGHT)
+  language  Language @default(EN)
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId    Int      @unique @map("user_id")
+
+  @@map("settings")
+  @@schema("staff")
+}
+
+enum Roles {
+  SUPERUSER
+  ADMIN
+  EMPLOYEE
+  GUEST
+
+  @@schema("staff")
+}
+
+enum Permissions {
+  USER_READ_SELF
+  USER_READ
+  USER_CREATE
+  USER_EDIT
+  USER_DELETE
+  USER_BLOCK
+  USER_UNBLOCK
+
+  @@schema("staff")
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+  DELETED
+
+  @@schema("staff")
+}
+
+enum Theme {
+  LIGHT
+  DARK
+
+  @@schema("staff")
+}
+
+enum Language {
+  EN
+  PL
+
+  @@schema("staff")
+}

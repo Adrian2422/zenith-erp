@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: zenith-erp-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_HOST: ${DATABASE_HOST}
+      POSTGRES_PORT: ${DATABASE_PORT}
+    networks:
+      - zenith-erp-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: zenith-erp-be
+    restart: always
+    environment:
+      APP_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      SERVER_PORT: ${SERVER_PORT}
+      JWT_ACCESS_TOKEN_EXP_IN_SEC: ${JWT_ACCESS_TOKEN_EXP_IN_SEC}
+      JWT_REFRESH_TOKEN_EXP_IN_SEC: ${JWT_REFRESH_TOKEN_EXP_IN_SEC}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - zenith-erp-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+    container_name: zenith-erp-fe
+    restart: always
+    networks:
+      - zenith-erp-network
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  zenith-erp-network:
+    driver: bridge
