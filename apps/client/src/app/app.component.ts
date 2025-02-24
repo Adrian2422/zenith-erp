@@ -7,6 +7,4 @@ import { RouterModule } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  public readonly title = 'client';
-}
+export class AppComponent {}
