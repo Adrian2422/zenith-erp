@@ -3,15 +3,25 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpStatus, Logger, ValidationPipe } from '@nestjs/common';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 
 import { AppModule } from './app/app.module';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter, {
+    P2000: HttpStatus.BAD_REQUEST,
+    P2002: HttpStatus.CONFLICT,
+    P2025: HttpStatus.NOT_FOUND,
+  }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.setGlobalPrefix(globalPrefix);
 
   if (process.env.APP_ENV !== 'production') {
     const config = new DocumentBuilder()
@@ -24,7 +34,6 @@ async function bootstrap(): Promise<void> {
     SwaggerModule.setup('docs', app, document);
   }
 
-  app.setGlobalPrefix(globalPrefix);
   const port = process.env.SERVER_PORT || 3000;
   await app.listen(port);
   Logger.log(
