@@ -12,9 +12,29 @@ services:
     networks:
       - zenith-erp-network
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    restart: always
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://zenith-erp-db:5432/${KEYCLOAK_DB}
+      KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASS}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
+    command: ['start-dev']
+    networks:
+      - zenith-erp-network
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
 
   backend:
     build:
@@ -26,15 +46,16 @@ services:
       APP_ENV: production
       DATABASE_URL: ${DATABASE_URL}
       SERVER_PORT: ${SERVER_PORT}
-      JWT_ACCESS_TOKEN_EXP_IN_SEC: ${JWT_ACCESS_TOKEN_EXP_IN_SEC}
-      JWT_REFRESH_TOKEN_EXP_IN_SEC: ${JWT_REFRESH_TOKEN_EXP_IN_SEC}
-      JWT_SECRET: ${JWT_SECRET}
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
     networks:
       - zenith-erp-network
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - postgres
+      - keycloak
 
   frontend:
     build:
@@ -42,10 +63,14 @@ services:
       dockerfile: apps/client/Dockerfile
     container_name: zenith-erp-fe
     restart: always
+    environment:
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
     networks:
       - zenith-erp-network
     ports:
-      - "80:80"
+      - '80:80'
     depends_on:
       - backend
 

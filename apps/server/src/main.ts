@@ -15,11 +15,13 @@ async function bootstrap(): Promise<void> {
   const globalPrefix = 'api';
 
   const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter, {
-    P2000: HttpStatus.BAD_REQUEST,
-    P2002: HttpStatus.CONFLICT,
-    P2025: HttpStatus.NOT_FOUND,
-  }));
+  app.useGlobalFilters(
+    new PrismaClientExceptionFilter(httpAdapter, {
+      P2000: HttpStatus.BAD_REQUEST,
+      P2002: HttpStatus.CONFLICT,
+      P2025: HttpStatus.NOT_FOUND,
+    }),
+  );
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.setGlobalPrefix(globalPrefix);
 
@@ -36,16 +38,12 @@ async function bootstrap(): Promise<void> {
 
   const port = process.env.SERVER_PORT || 3000;
   await app.listen(port);
-  Logger.log(
-    `🚀 Env: ${process.env.APP_ENV}`,
-  );
+  Logger.log(`🚀 Env: ${process.env.APP_ENV}`);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
   );
   if (process.env.APP_ENV !== 'production') {
-    Logger.log(
-      `🚀 Swagger is running on: http://localhost:${port}/docs`,
-    );
+    Logger.log(`🚀 Swagger is running on: http://localhost:${port}/docs`);
   }
 }
 

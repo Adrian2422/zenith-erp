@@ -69,7 +69,7 @@ export default [
         'error',
         {
           accessibility: 'explicit',
-          ignoredMethodNames: ['constructor']
+          ignoredMethodNames: ['constructor'],
         },
       ],
       indent: [
