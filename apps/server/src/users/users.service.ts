@@ -1,11 +1,11 @@
 import { ClassSerializerInterceptor, Inject, Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { CustomPrismaService } from 'nestjs-prisma';
 
 import { type ExtendedPrismaClient } from '../app/prisma.extension';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
-import { plainToInstance } from 'class-transformer';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Injectable()
