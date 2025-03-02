@@ -1,12 +1,8 @@
-import {
-  ApplicationConfig,
-  importProvidersFrom,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import {
   AbstractSecurityStorage,
-  AuthModule,
   DefaultLocalStorageService,
   LogLevel,
   provideAuth,
@@ -15,7 +11,6 @@ import {
 
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -3,9 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  Param, ParseIntPipe,
+  Param,
+  ParseIntPipe,
   Patch,
-  Post
+  Post,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
@@ -39,7 +40,10 @@ export class UsersController {
 
   @Patch(':id')
   @ApiOkResponse({ type: UserEntity })
-  public update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto): UserEntity {
+  public update(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): UserEntity {
     return this.usersService.update(+id, updateUserDto);
   }
 
