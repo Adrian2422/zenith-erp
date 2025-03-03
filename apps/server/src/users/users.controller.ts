@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOAuth2, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,6 +16,12 @@ import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
+@ApiOAuth2([
+  'email',
+  'roles',
+  'profile',
+  'openid',
+])
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

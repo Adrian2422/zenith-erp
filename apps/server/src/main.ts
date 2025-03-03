@@ -27,13 +27,41 @@ async function bootstrap(): Promise<void> {
 
   if (process.env.APP_ENV !== 'production') {
     const config = new DocumentBuilder()
+      .addOAuth2({
+        type: 'oauth2',
+        description: 'Keycloak',
+        bearerFormat: 'JWT',
+        in: 'Header',
+        name: 'Authorization',
+        flows: {
+          password: {
+            tokenUrl: 'http://localhost:8080/realms/zenith-realm/protocol/openid-connect/token',
+            authorizationUrl: 'http://localhost:8080/realms/zenith-realm/protocol/openid-connect/auth',
+            scopes: {
+              email: 'Email',
+              roles: 'Roles',
+              profile: 'Profile',
+              openid: 'User id',
+            },
+          }
+        }
+      })
       .setTitle('Zenith ERP')
       .setDescription('The Zenith ERP API description')
       .setVersion('0.1')
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('docs', app, document);
+    SwaggerModule.setup('docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+        initOAuth: {
+          clientId: 'zenith-client',
+          realm: 'zenith-realm',
+        }
+      },
+      jsonDocumentUrl: 'swagger/json',
+    });
   }
 
   const port = process.env.SERVER_PORT || 3000;
