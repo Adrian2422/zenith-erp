@@ -1,19 +1,34 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { PassportModule } from '@nestjs/passport';
-
-import { KeycloakAuthGuard } from './guards/auth.guard';
-import { KeycloakStrategy } from './keycloak.strategy';
+import {
+  AuthGuard,
+  KeycloakConnectModule,
+  ResourceGuard,
+  RoleGuard,
+} from 'nest-keycloak-connect';
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    KeycloakConnectModule.register({
+      authServerUrl: process.env.KEYCLOAK_URL,
+      realm: process.env.KEYCLOAK_REALM,
+      clientId: process.env.KEYCLOAK_CLIENT_ID,
+      secret: process.env.KEYCLOAK_CLIENT_SECRET,
+    })
+  ],
   providers: [
-    KeycloakStrategy,
     {
       provide: APP_GUARD,
-      useClass: KeycloakAuthGuard,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ResourceGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
     },
   ],
-  exports: [PassportModule]
 })
 export class AuthModule {}

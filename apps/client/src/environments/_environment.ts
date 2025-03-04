@@ -3,4 +3,5 @@ export interface Environment {
   apiUrl: string;
   authority: string;
   clientId: string;
+  wellknownEndpointUrl: string;
 }

@@ -14,6 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
+import { Roles } from 'nest-keycloak-connect';
 
 @ApiTags('users')
 @ApiOAuth2([

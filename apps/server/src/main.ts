@@ -35,13 +35,11 @@ async function bootstrap(): Promise<void> {
         name: 'Authorization',
         flows: {
           password: {
-            tokenUrl: 'http://localhost:8080/realms/zenith-realm/protocol/openid-connect/token',
-            authorizationUrl: 'http://localhost:8080/realms/zenith-realm/protocol/openid-connect/auth',
+            tokenUrl: 'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/token',
+            authorizationUrl: 'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/auth',
             scopes: {
-              email: 'Email',
-              roles: 'Roles',
-              profile: 'Profile',
-              openid: 'User id',
+              profile: 'profile',
+              openid: 'openid',
             },
           }
         }
@@ -56,13 +54,20 @@ async function bootstrap(): Promise<void> {
       swaggerOptions: {
         persistAuthorization: true,
         initOAuth: {
-          clientId: 'zenith-client',
+          clientId: 'zenith-frontend',
           realm: 'zenith-realm',
         }
       },
       jsonDocumentUrl: 'swagger/json',
     });
   }
+
+  app.enableCors({
+    origin: process.env.CLIENT_PORT
+      ? `http://localhost:${process.env.CLIENT_PORT}`
+      : '*',
+    credentials: true,
+  });
 
   const port = process.env.SERVER_PORT || 3000;
   await app.listen(port);
@@ -75,4 +80,4 @@ async function bootstrap(): Promise<void> {
   }
 }
 
-bootstrap();
+void bootstrap();
