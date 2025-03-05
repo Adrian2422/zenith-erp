@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
+import { Public } from 'nest-keycloak-connect';
 
 import { AppService } from './app.service';
-import { Public } from 'nest-keycloak-connect';
 
 @Controller()
 export class AppController {

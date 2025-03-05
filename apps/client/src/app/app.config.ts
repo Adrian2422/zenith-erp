@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
           postLogoutRedirectUri: window.location.origin,
           clientId: environment.clientId,
           scope: 'openid profile email offline_access',
-          // authWellknownEndpointUrl: environment.wellknownEndpointUrl,
+          authWellknownEndpointUrl: environment.wellknownEndpointUrl,
           responseType: 'code',
           silentRenew: true,
           useRefreshToken: true,

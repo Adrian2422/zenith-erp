@@ -35,14 +35,16 @@ async function bootstrap(): Promise<void> {
         name: 'Authorization',
         flows: {
           password: {
-            tokenUrl: 'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/token',
-            authorizationUrl: 'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/auth',
+            tokenUrl:
+              'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/token',
+            authorizationUrl:
+              'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/auth',
             scopes: {
               profile: 'profile',
               openid: 'openid',
             },
-          }
-        }
+          },
+        },
       })
       .setTitle('Zenith ERP')
       .setDescription('The Zenith ERP API description')
@@ -56,7 +58,7 @@ async function bootstrap(): Promise<void> {
         initOAuth: {
           clientId: 'zenith-frontend',
           realm: 'zenith-realm',
-        }
+        },
       },
       jsonDocumentUrl: 'swagger/json',
     });
