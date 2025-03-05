@@ -31,8 +31,12 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
-      - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t lint
+      - run: git fetch --no-tags --prune --depth=1 origin main develop || true
+      - run: |
+          BASE_BRANCH="origin/develop"
+          [[ "$GITHUB_REF_NAME" == "main" ]] && BASE_BRANCH="origin/main"
+          echo "Using base: $BASE_BRANCH"
+          npx nx affected -t lint --base=$BASE_BRANCH
 
   test:
     runs-on: ubuntu-latest
@@ -45,8 +49,12 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
-      - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t test
+      - run: git fetch --no-tags --prune --depth=1 origin main develop || true
+      - run: |
+          BASE_BRANCH="origin/develop"
+          [[ "$GITHUB_REF_NAME" == "main" ]] && BASE_BRANCH="origin/main"
+          echo "Using base: $BASE_BRANCH"
+          npx nx affected -t test --base=$BASE_BRANCH
 
   build:
     runs-on: ubuntu-latest
@@ -59,9 +67,12 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
-      - run: git fetch origin main || true
-      - uses: nrwl/nx-set-shas@v4
-      - run: npx nx affected -t build --base=origin/main
+      - run: git fetch --no-tags --prune --depth=1 origin main develop || true
+      - run: |
+          BASE_BRANCH="origin/develop"
+          [[ "$GITHUB_REF_NAME" == "main" ]] && BASE_BRANCH="origin/main"
+          echo "Using base: $BASE_BRANCH"
+          npx nx affected -t build --base=$BASE_BRANCH
 
   e2e:
     runs-on: ubuntu-latest
@@ -69,12 +80,16 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/')
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
-      - run: npx cypress install
-      - run: npx nx run server:serve:production &
-      - run: sleep 10
-      - run: npx nx affected -t e2e
+      - run: git fetch --no-tags --prune --depth=1 origin main develop || true
+      - run: |
+          BASE_BRANCH="origin/develop"
+          [[ "$GITHUB_REF_NAME" == "main" ]] && BASE_BRANCH="origin/main"
+          echo "Using base: $BASE_BRANCH"
+          npx nx affected -t e2e --base=$BASE_BRANCH
