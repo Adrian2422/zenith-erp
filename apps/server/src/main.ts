@@ -15,38 +15,71 @@ async function bootstrap(): Promise<void> {
   const globalPrefix = 'api';
 
   const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter, {
-    P2000: HttpStatus.BAD_REQUEST,
-    P2002: HttpStatus.CONFLICT,
-    P2025: HttpStatus.NOT_FOUND,
-  }));
+  app.useGlobalFilters(
+    new PrismaClientExceptionFilter(httpAdapter, {
+      P2000: HttpStatus.BAD_REQUEST,
+      P2002: HttpStatus.CONFLICT,
+      P2025: HttpStatus.NOT_FOUND,
+    }),
+  );
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.setGlobalPrefix(globalPrefix);
 
   if (process.env.APP_ENV !== 'production') {
     const config = new DocumentBuilder()
+      .addOAuth2({
+        type: 'oauth2',
+        description: 'Keycloak',
+        bearerFormat: 'JWT',
+        in: 'Header',
+        name: 'Authorization',
+        flows: {
+          password: {
+            tokenUrl:
+              'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/token',
+            authorizationUrl:
+              'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/auth',
+            scopes: {
+              profile: 'profile',
+              openid: 'openid',
+            },
+          },
+        },
+      })
       .setTitle('Zenith ERP')
       .setDescription('The Zenith ERP API description')
       .setVersion('0.1')
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('docs', app, document);
+    SwaggerModule.setup('docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+        initOAuth: {
+          clientId: 'zenith-frontend',
+          realm: 'zenith-realm',
+        },
+      },
+      jsonDocumentUrl: 'swagger/json',
+    });
   }
+
+  app.enableCors({
+    origin: process.env.CLIENT_PORT
+      ? `http://localhost:${process.env.CLIENT_PORT}`
+      : '*',
+    credentials: true,
+  });
 
   const port = process.env.SERVER_PORT || 3000;
   await app.listen(port);
-  Logger.log(
-    `🚀 Env: ${process.env.APP_ENV}`,
-  );
+  Logger.log(`🚀 Env: ${process.env.APP_ENV}`);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
   );
   if (process.env.APP_ENV !== 'production') {
-    Logger.log(
-      `🚀 Swagger is running on: http://localhost:${port}/docs`,
-    );
+    Logger.log(`🚀 Swagger is running on: http://localhost:${port}/docs`);
   }
 }
 
-bootstrap();
+void bootstrap();

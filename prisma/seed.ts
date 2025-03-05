@@ -1,5 +1,12 @@
 import { faker } from '@faker-js/faker';
-import { Language,Permissions, PrismaClient, Roles, Status, Theme } from '@prisma/client';
+import {
+  Language,
+  Permissions,
+  PrismaClient,
+  Roles,
+  Status,
+  Theme,
+} from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 
 const randomUsersCount = 100;
@@ -135,7 +142,10 @@ function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function randomEnum<T extends object>(targetEnum: T, numerical = false): T[keyof T] {
+function randomEnum<T extends object>(
+  targetEnum: T,
+  numerical = false,
+): T[keyof T] {
   const enumValues = Object.keys(targetEnum)
     .map((n) => (numerical ? Number.parseInt(n) : n))
     .filter((n) => !Number.isNaN(n)) as unknown as T[keyof T][];

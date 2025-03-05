@@ -79,3 +79,13 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+```bash
+# Run in config/keycloak directory
+# Based on https://github.com/keycloak/keycloak/issues/33800#issuecomment-2411056817
+export KEYCLOAK_ID=$(docker ps -a | grep keycloak | awk '{print $1}')
+
+docker exec -it KEYCLOAK_ID sh -c "cp -rp /opt/keycloak/data/h2 /tmp; /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/export --users different_files --realm zenith-realm --db dev-file --db-url 'jdbc:h2:file:/tmp/h2/keycloakdb;NON_KEYWORDS=VALUE'"
+docker exec -it KEYCLOAK_ID cat /opt/keycloak/data/export/zenith-realm-realm.json > zenith-realm.json
+docker exec -it KEYCLOAK_ID cat /opt/keycloak/data/export/zenith-realm-users-0.json > zenith-users-0.json
+```
