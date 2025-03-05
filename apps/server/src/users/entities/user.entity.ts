@@ -1,26 +1,12 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { Permissions, Roles, Status, User } from '@prisma/client';
-import { Exclude } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@prisma/client';
 
 export class UserEntity implements User {
   @ApiProperty()
   public userId: number;
 
   @ApiProperty()
-  public email: string;
-
-  @ApiHideProperty()
-  @Exclude()
-  public password: string;
-
-  @ApiProperty()
-  public role: Roles;
-
-  @ApiProperty()
-  public permissions: Permissions[];
-
-  @ApiProperty()
-  public status: Status;
+  public keycloakId: string;
 
   @ApiProperty()
   public createdAt: Date;

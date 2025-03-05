@@ -18,8 +18,4 @@ COPY --from=builder /app/dist/apps/server /app
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/prisma/schema.prisma /app/prisma/schema.prisma
 
-RUN npx prisma generate
-
-EXPOSE 3000
-
 CMD ["node", "main.js"]

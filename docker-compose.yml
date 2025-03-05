@@ -31,6 +31,7 @@ services:
       - '8082:80'
     volumes:
       - ./config/keycloak:/opt/keycloak/data/import
+      - ./providers:/opt/keycloak/providers
     depends_on:
       - postgres
 
@@ -41,12 +42,14 @@ services:
     container_name: zenith-erp-be
     restart: always
     environment:
-      APP_ENV: production
+      APP_ENV: ${APP_ENV:production}
       DATABASE_URL: ${DATABASE_URL}
       SERVER_PORT: ${SERVER_PORT}
-      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
       KEYCLOAK_REALM: ${KEYCLOAK_REALM}
       KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_EVENTS_TARGET_URL: ${KEYCLOAK_EVENTS_TARGET_URL}
+      KEYCLOAK_EVENTS_SECRET: ${KEYCLOAK_EVENTS_SECRET}
     networks:
       - zenith-erp-network
     ports:
@@ -61,10 +64,6 @@ services:
       dockerfile: apps/client/Dockerfile
     container_name: zenith-erp-fe
     restart: always
-    environment:
-      KEYCLOAK_URL: http://keycloak:8080
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
     networks:
       - zenith-erp-network
     ports:

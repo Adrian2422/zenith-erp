@@ -65,9 +65,10 @@ async function bootstrap(): Promise<void> {
   }
 
   app.enableCors({
-    origin: process.env.CLIENT_PORT
-      ? `http://localhost:${process.env.CLIENT_PORT}`
-      : '*',
+    origin: [
+      `http://localhost:${process.env.CLIENT_PORT}`,
+      process.env.KEYCLOAK_URL,
+    ],
     credentials: true,
   });
 

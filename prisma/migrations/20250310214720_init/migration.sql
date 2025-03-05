@@ -2,15 +2,6 @@
 CREATE SCHEMA IF NOT EXISTS "staff";
 
 -- CreateEnum
-CREATE TYPE "staff"."Roles" AS ENUM ('SUPERUSER', 'ADMIN', 'EMPLOYEE', 'GUEST');
-
--- CreateEnum
-CREATE TYPE "staff"."Permissions" AS ENUM ('USER_READ_SELF', 'USER_READ', 'USER_CREATE', 'USER_EDIT', 'USER_DELETE', 'USER_BLOCK', 'USER_UNBLOCK');
-
--- CreateEnum
-CREATE TYPE "staff"."Status" AS ENUM ('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED');
-
--- CreateEnum
 CREATE TYPE "staff"."Theme" AS ENUM ('LIGHT', 'DARK');
 
 -- CreateEnum
@@ -19,11 +10,7 @@ CREATE TYPE "staff"."Language" AS ENUM ('EN', 'PL');
 -- CreateTable
 CREATE TABLE "staff"."users" (
     "user_id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-    "role" "staff"."Roles" NOT NULL DEFAULT 'EMPLOYEE',
-    "permissions" "staff"."Permissions"[] DEFAULT ARRAY['USER_READ_SELF']::"staff"."Permissions"[],
-    "status" "staff"."Status" NOT NULL DEFAULT 'INACTIVE',
+    "keycloakId" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -33,9 +20,9 @@ CREATE TABLE "staff"."users" (
 -- CreateTable
 CREATE TABLE "staff"."personal_infos" (
     "personal_info_id" SERIAL NOT NULL,
-    "first_name" TEXT NOT NULL,
-    "last_name" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
+    "first_name" TEXT,
+    "last_name" TEXT,
+    "phone" TEXT,
     "user_id" INTEGER NOT NULL,
 
     CONSTRAINT "personal_infos_pkey" PRIMARY KEY ("personal_info_id")
@@ -44,10 +31,10 @@ CREATE TABLE "staff"."personal_infos" (
 -- CreateTable
 CREATE TABLE "staff"."addresses" (
     "address_id" SERIAL NOT NULL,
-    "country" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "street" TEXT NOT NULL,
-    "postal_code" TEXT NOT NULL,
+    "country" TEXT,
+    "city" TEXT,
+    "street" TEXT,
+    "postal_code" TEXT,
     "building_no" TEXT,
     "local_no" TEXT,
     "user_id" INTEGER NOT NULL,
@@ -57,16 +44,16 @@ CREATE TABLE "staff"."addresses" (
 
 -- CreateTable
 CREATE TABLE "staff"."settings" (
-    "setting_id" SERIAL NOT NULL,
+    "settings_id" SERIAL NOT NULL,
     "theme" "staff"."Theme" NOT NULL DEFAULT 'LIGHT',
     "language" "staff"."Language" NOT NULL DEFAULT 'EN',
     "user_id" INTEGER NOT NULL,
 
-    CONSTRAINT "settings_pkey" PRIMARY KEY ("setting_id")
+    CONSTRAINT "settings_pkey" PRIMARY KEY ("settings_id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "staff"."users"("email");
+CREATE UNIQUE INDEX "users_keycloakId_key" ON "staff"."users"("keycloakId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "personal_infos_user_id_key" ON "staff"."personal_infos"("user_id");
