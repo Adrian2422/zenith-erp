@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import {
@@ -7,7 +8,11 @@ import {
   RoleGuard,
 } from 'nest-keycloak-connect';
 
+import { KeycloakController } from './keycloak.controller';
+import { KeycloakService } from './keycloak.service';
+
 @Module({
+  controllers: [KeycloakController],
   imports: [
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_URL,
@@ -15,6 +20,7 @@ import {
       clientId: process.env.KEYCLOAK_CLIENT_ID,
       secret: process.env.KEYCLOAK_CLIENT_SECRET,
     }),
+    HttpModule,
   ],
   providers: [
     {
@@ -29,6 +35,7 @@ import {
       provide: APP_GUARD,
       useClass: RoleGuard,
     },
+    KeycloakService,
   ],
 })
 export class AuthModule {}
