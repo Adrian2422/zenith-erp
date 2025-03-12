@@ -1,8 +1,8 @@
-import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'nest-keycloak-connect';
 
+import { HmacGuard } from '../common/guards/hmac-guard/hmac.guard';
 import { AccessRegisterEntity } from './entities/access-register.entity';
 import { AdminUserCreateEntity } from './entities/admin-user-create.entity';
 import { AdminUserDeleteEntity } from './entities/admin-user-delete.entity';
@@ -10,12 +10,10 @@ import { KeycloakEventsService } from './keycloak-events.service';
 
 @ApiTags('keycloak-events')
 @Public()
+@UseGuards(HmacGuard)
 @Controller('keycloak-events')
 export class KeycloakEventsController {
-  constructor(
-    private readonly webhooksService: KeycloakEventsService,
-    private readonly httpService: HttpService,
-  ) {}
+  constructor(private readonly webhooksService: KeycloakEventsService) {}
 
   @Post()
   public async handleEveryEvent(@Body() payload: unknown): Promise<void> {

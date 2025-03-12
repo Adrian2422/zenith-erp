@@ -18,6 +18,7 @@ export class HttpLoggerInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     console.log('Incoming Request Body:', {
       url: request.url,
+      headers: request.headers,
       body: request.body,
     });
 
