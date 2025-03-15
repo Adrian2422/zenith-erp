@@ -108,8 +108,8 @@ export class KeycloakEventsService implements OnModuleInit {
     const url = `${this.keycloakUrl}/realms/zenith-realm/webhooks`;
 
     if (
-      currentWebhooks.length > 0
-      && currentWebhooks.some((w) => w.url === body.url)
+      currentWebhooks.length > 0 &&
+      currentWebhooks.some((w) => w.url === body.url)
     ) {
       return;
     }

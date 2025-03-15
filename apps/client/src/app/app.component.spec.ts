@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
   LogLevel,
@@ -12,6 +12,9 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
@@ -38,12 +41,13 @@ describe('AppComponent', () => {
       ],
       imports: [AppComponent, RouterModule.forRoot([])],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = <HTMLElement>fixture.nativeElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello world!');
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });

@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import {
   LogLevel,
   provideAuth,
@@ -8,15 +9,19 @@ import {
 } from 'angular-auth-oidc-client';
 
 import { environment } from '../../../environments/environment';
-import { DashboardComponent } from './dashboard.component';
+import { LayoutComponent } from './layout.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('LayoutComponent', () => {
+  let component: LayoutComponent;
+  let fixture: ComponentFixture<LayoutComponent>;
+
+  const fakeActivatedRoute = {
+    snapshot: {},
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardComponent],
+      imports: [LayoutComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -38,10 +43,11 @@ describe('DashboardComponent', () => {
           },
           withAppInitializerAuthCheck(),
         ),
+        { provide: ActivatedRoute, useValue: fakeActivatedRoute },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
