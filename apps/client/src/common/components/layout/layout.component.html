@@ -1,0 +1,86 @@
+<div class="flex h-screen flex-nowrap">
+  <div
+    [class]="
+      (layoutService.isSidebarVisible() ? 'ml-0' : '-ml-[300px]') +
+      ' flex h-full w-[300px] flex-col overflow-hidden transition-all duration-200 ease-out'
+    "
+  >
+    <div class="w-full">
+      <a class="flex gap-4 p-4" routerLink="/">
+        <i class="pi pi-user" style="font-size: 2rem"></i>
+        <span class="text-2xl">ZenithERP</span>
+      </a>
+    </div>
+    <div class="flex flex-1 px-4 py-2 m-4 bg-surface-100 dark:bg-surface-900 rounded-md">
+      <ul class="w-full">
+        @for (item of sidebarItems; track item.label; let last = $last) {
+          <li>
+            <div class="pb-1">{{item.label}}</div>
+            <ul class="flex flex-col gap-1">
+              @for (subitem of item.children; track subitem.label) {
+                <li>
+                  <a
+                    class="hover:bg-surface-200 dark:hover:bg-surface-800 flex items-center rounded px-2 py-1 transition-colors duration-200 ease-in-out"
+                    [routerLink]="subitem.link"
+                    routerLinkActive="bg-surface-200 dark:bg-surface-800"
+                  >
+                    <i class="pi pi-fw pi-gauge mr-2"></i>
+                    <span>{{ subitem.label }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </li>
+          @if (!last) {
+            <li class="my-2 h-[1px] w-full"></li>
+          }
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="h-full flex-1 overflow-hidden">
+    <div class="mx-auto my-0 flex h-full max-w-[1540px] flex-col">
+      <div class="static flex w-full items-center justify-between h-16 px-6 py-2">
+        <div>
+          <p-button
+            [icon]="
+              layoutService.isSidebarVisible()
+                ? 'pi pi-chevron-left'
+                : 'pi pi-chevron-right'
+            "
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            (onClick)="layoutService.toggleSidebar()"
+          />
+        </div>
+        <div>
+          <p-button
+            [icon]="layoutService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            (onClick)="layoutService.toggleTheme()"
+          />
+          <p-button
+            icon="pi pi-cog"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+          />
+          <p-button
+            icon="pi pi-user"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            (onClick)="profile.toggle($event)"
+          />
+          <p-menu #profile [model]="profileItems" [popup]="true" />
+        </div>
+      </div>
+      <div class="shrink grow basis-auto bg-surface-100 dark:bg-surface-900 py-2 px-4 m-4 rounded-md">
+        <router-outlet />
+      </div>
+    </div>
+  </div>
+</div>
