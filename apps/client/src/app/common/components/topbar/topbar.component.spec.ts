@@ -1,15 +1,11 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  LogLevel,
-  provideAuth,
-  withAppInitializerAuthCheck,
-} from 'angular-auth-oidc-client';
+import { ActivatedRoute } from '@angular/router';
+import { LogLevel, provideAuth, withAppInitializerAuthCheck } from 'angular-auth-oidc-client';
 
 import { environment } from '../../../../environments/environment';
 import { TopbarComponent } from './topbar.component';
-import { ActivatedRoute } from '@angular/router';
 
 describe('TopbarComponent', () => {
   let component: TopbarComponent;

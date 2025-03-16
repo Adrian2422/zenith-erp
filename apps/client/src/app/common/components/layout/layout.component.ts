@@ -1,10 +1,5 @@
 import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Drawer } from 'primeng/drawer';
 
@@ -13,15 +8,7 @@ import { TopbarComponent } from '../topbar/topbar.component';
 
 @Component({
   selector: 'app-layout',
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    Drawer,
-    NgTemplateOutlet,
-    NgOptimizedImage,
-    TopbarComponent,
-  ],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Drawer, NgTemplateOutlet, NgOptimizedImage, TopbarComponent],
   providers: [LayoutService],
   templateUrl: './layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

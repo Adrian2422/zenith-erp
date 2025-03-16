@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  ArrayMinSize,
-  IsArray,
-  IsBoolean,
-  IsNotEmpty,
-  IsString,
-} from 'class-validator';
+import { ArrayMinSize, IsArray, IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateWebhookDto {
   @ApiProperty()

@@ -6,9 +6,6 @@ export const appRoutes: Route[] = [
   {
     path: '',
     canActivate: [isAuthenticatedGuard],
-    loadComponent: () =>
-      import('./views/dashboard/dashboard.component').then(
-        (c) => c.DashboardComponent,
-      ),
+    loadComponent: () => import('./views/dashboard/dashboard.component').then((c) => c.DashboardComponent),
   },
 ];

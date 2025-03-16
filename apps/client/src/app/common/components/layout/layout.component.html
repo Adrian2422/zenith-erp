@@ -7,9 +7,7 @@
         ' hidden h-full w-[300px] flex-col overflow-hidden transition-all duration-200 ease-out md:flex'
       "
     >
-      <div
-        class="bg-surface-100 dark:bg-surface-900 mt-4 mb-4 ml-4 flex h-full flex-1 overflow-hidden rounded-md px-4 py-2"
-      >
+      <div class="bg-surface-100 dark:bg-surface-900 mt-4 mb-4 ml-4 flex h-full flex-1 overflow-hidden rounded-md px-4 py-2">
         <ng-container *ngTemplateOutlet="sidebar" />
       </div>
     </div>
@@ -27,12 +25,7 @@
       <ng-template #headless>
         <div class="mx-4">
           <a routerLink="/" class="flex items-center gap-x-4 py-4">
-            <img
-              ngSrc="/zenitherp-logo.svg"
-              alt="ZenithERP logo"
-              height="40"
-              width="40"
-            />
+            <img ngSrc="/zenitherp-logo.svg" alt="ZenithERP logo" height="40" width="40" />
             <span class="text-3xl"> ZenithERP </span>
           </a>
           <ng-container *ngTemplateOutlet="sidebar" />

@@ -1,9 +1,4 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
 
@@ -21,9 +16,7 @@ function generateHmac(obj: unknown, sharedSecret: string): string {
 
 @Injectable()
 export class HmacGuard implements CanActivate {
-  public canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  public canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
 
     const body = request.body;

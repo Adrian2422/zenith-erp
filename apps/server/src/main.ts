@@ -35,10 +35,8 @@ async function bootstrap(): Promise<void> {
         name: 'Authorization',
         flows: {
           password: {
-            tokenUrl:
-              'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/token',
-            authorizationUrl:
-              'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/auth',
+            tokenUrl: 'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/token',
+            authorizationUrl: 'http://localhost:8082/realms/zenith-realm/protocol/openid-connect/auth',
             scopes: {
               profile: 'profile',
               openid: 'openid',
@@ -65,19 +63,14 @@ async function bootstrap(): Promise<void> {
   }
 
   app.enableCors({
-    origin: [
-      `http://localhost:${process.env.CLIENT_PORT}`,
-      process.env.KEYCLOAK_URL,
-    ],
+    origin: [`http://localhost:${process.env.CLIENT_PORT}`, process.env.KEYCLOAK_URL],
     credentials: true,
   });
 
   const port = process.env.SERVER_PORT || 3000;
   await app.listen(port);
   Logger.log(`🚀 Env: ${process.env.APP_ENV}`);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
-  );
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
   if (process.env.APP_ENV !== 'production') {
     Logger.log(`🚀 Swagger is running on: http://localhost:${port}/docs`);
   }

@@ -5,9 +5,7 @@ import { Injectable, signal } from '@angular/core';
 })
 export class LayoutService {
   public readonly isSidebarVisible = signal<boolean>(window.innerWidth >= 768);
-  public readonly isDarkMode = signal<boolean>(
-    sessionStorage.getItem('darkMode') === 'true' || false,
-  );
+  public readonly isDarkMode = signal<boolean>(sessionStorage.getItem('darkMode') === 'true' || false);
   public readonly isMobile = signal(window.innerWidth < 768);
 
   public get isSidebarVisiblePlain(): boolean {
