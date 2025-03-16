@@ -3,9 +3,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Button } from 'primeng/button';
 
+import { CardComponent } from '../../../common/components/card/card.component';
+
 @Component({
   selector: 'app-dashboard',
-  imports: [AsyncPipe, Button],
+  imports: [AsyncPipe, Button, CardComponent],
   templateUrl: './dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

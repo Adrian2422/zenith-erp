@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,13 +9,22 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { MenuItem } from 'primeng/api';
 import { Button } from 'primeng/button';
+import { Drawer } from 'primeng/drawer';
 import { Menu } from 'primeng/menu';
 
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, Button, Menu, RouterLink, RouterLinkActive],
+  imports: [
+    RouterOutlet,
+    Button,
+    Menu,
+    RouterLink,
+    RouterLinkActive,
+    Drawer,
+    NgTemplateOutlet,
+  ],
   providers: [LayoutService],
   templateUrl: './layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,6 +69,7 @@ export class LayoutComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initializeTheme();
+    this.layoutService.registerWidthListener();
     this.profileItems = [
       { label: 'Profile', icon: 'pi pi-user' },
       {
