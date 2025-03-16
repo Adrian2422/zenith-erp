@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,34 +6,29 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { MenuItem } from 'primeng/api';
-import { Button } from 'primeng/button';
 import { Drawer } from 'primeng/drawer';
-import { Menu } from 'primeng/menu';
 
 import { LayoutService } from '../../services/layout.service';
+import { TopbarComponent } from '../topbar/topbar.component';
 
 @Component({
   selector: 'app-layout',
   imports: [
     RouterOutlet,
-    Button,
-    Menu,
     RouterLink,
     RouterLinkActive,
     Drawer,
     NgTemplateOutlet,
+    NgOptimizedImage,
+    TopbarComponent,
   ],
   providers: [LayoutService],
   templateUrl: './layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-  public readonly oidc = inject(OidcSecurityService);
   public readonly layoutService = inject(LayoutService);
 
-  public profileItems: MenuItem[] | undefined;
   public sidebarItems = [
     {
       label: 'Dashboard',
@@ -70,16 +65,6 @@ export class LayoutComponent implements OnInit {
   public ngOnInit(): void {
     this.initializeTheme();
     this.layoutService.registerWidthListener();
-    this.profileItems = [
-      { label: 'Profile', icon: 'pi pi-user' },
-      {
-        label: 'Log out',
-        icon: 'pi pi-power-off',
-        command: (): void => {
-          this.oidc.logoff().subscribe();
-        },
-      },
-    ];
   }
 
   public initializeTheme(): void {
