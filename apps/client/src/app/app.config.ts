@@ -11,9 +11,9 @@ import {
 } from 'angular-auth-oidc-client';
 import { providePrimeNG } from 'primeng/config';
 
-import { theme } from '../common/config/theme';
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
+import { theme } from './common/config/theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
