@@ -22,8 +22,9 @@
       severity="secondary"
       (onClick)="layoutService.toggleTheme()"
     />
-    <p-button icon="pi pi-cog" [rounded]="true" [text]="true" severity="secondary" />
+    <p-button icon="pi pi-language" [rounded]="true" [text]="true" severity="secondary" (onClick)="language.toggle($event)" />
+    <p-menu #language [model]="languageButtonItems()" [popup]="true" />
     <p-button icon="pi pi-user" [rounded]="true" [text]="true" severity="secondary" (onClick)="profile.toggle($event)" />
-    <p-menu #profile [model]="profileItems" [popup]="true" />
+    <p-menu #profile [model]="accountButtonItems()" [popup]="true" />
   </div>
 </div>

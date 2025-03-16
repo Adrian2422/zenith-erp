@@ -1,0 +1,38 @@
+{
+  "header": {
+    "language": {
+      "polish": "Polish",
+      "english": "English"
+    },
+    "user": {
+      "profile": "Profile",
+      "logout": "Log  out"
+    }
+  },
+  "sidebar": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "users": "Users"
+  },
+  "view": {
+    "profile": {
+      "header": "Profile",
+      "account-info": {
+        "header": "Account info",
+        "name": "Name and surname",
+        "preferred-username": "Username",
+        "email": "Email",
+        "email-verified": "Email verified"
+      },
+      "address": {
+        "header": "Address",
+        "street": "Street",
+        "building-no": "Building no",
+        "local-no": "Local no",
+        "postal-code": "Postal code",
+        "city": "City",
+        "country": "Country"
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { LogLevel, provideAuth, withAppInitializerAuthCheck } from 'angular-auth-oidc-client';
+import { TranslateTestingModule } from 'ngx-translate-testing';
 
 import { environment } from '../../../../environments/environment';
 import { LayoutComponent } from './layout.component';
@@ -17,7 +18,7 @@ describe('LayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LayoutComponent],
+      imports: [LayoutComponent, TranslateTestingModule.withTranslations({})],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

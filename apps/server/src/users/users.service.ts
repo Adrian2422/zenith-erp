@@ -1,10 +1,9 @@
 import { ClassSerializerInterceptor, ConflictException, Inject, Injectable, NotFoundException, UseInterceptors } from '@nestjs/common';
+import { CreateUserDto, UserEntity } from '@zenith-erp/shared-types';
 import { plainToInstance } from 'class-transformer';
 import { CustomPrismaService } from 'nestjs-prisma';
 
 import { type ExtendedPrismaClient } from '../app/prisma.extension';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UserEntity } from './entities/user.entity';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Injectable()
@@ -29,9 +28,6 @@ export class UsersService {
         address: {
           create: {},
         },
-        personalInfo: {
-          create: {},
-        },
         settings: {
           create: {},
         },
@@ -47,13 +43,17 @@ export class UsersService {
     return users.map((u) => plainToInstance(UserEntity, u));
   }
 
-  public findOne(id: number): UserEntity {
+  public findOne(id: string): UserEntity {
     const user = this.prismaService.client.user.findUnique({
-      where: { userId: id },
+      where: { keycloakId: id },
+      include: {
+        address: true,
+        settings: true,
+      },
     });
 
     if (!user) {
-      throw new NotFoundException(`User with ${id} does not exist.`);
+      throw new NotFoundException(`User with keycloakId ${id} does not exist.`);
     }
 
     return plainToInstance(UserEntity, user);

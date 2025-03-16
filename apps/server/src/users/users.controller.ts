@@ -1,8 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOAuth2, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { CreateUserDto, UserEntity } from '@zenith-erp/shared-types';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
@@ -25,8 +24,8 @@ export class UsersController {
 
   @Get(':id')
   @ApiOkResponse({ type: UserEntity })
-  public findOne(@Param('id', ParseIntPipe) id: string): UserEntity {
-    return this.usersService.findOne(+id);
+  public findOne(@Param('id') id: string): UserEntity {
+    return this.usersService.findOne(id);
   }
 
   @Delete(':id')

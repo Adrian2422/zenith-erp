@@ -1,7 +1,8 @@
-import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   AbstractSecurityStorage,
   DefaultLocalStorageService,
@@ -13,10 +14,21 @@ import { providePrimeNG } from 'primeng/config';
 
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
+import { createTranslateLoader } from './common/config/i18n.config';
 import { theme } from './common/config/theme';
+import { tokenInterceptor } from './common/interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: createTranslateLoader,
+          deps: [HttpClient],
+        },
+      }),
+    ),
     provideAuth(
       {
         config: {
@@ -48,7 +60,7 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([tokenInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
   ],

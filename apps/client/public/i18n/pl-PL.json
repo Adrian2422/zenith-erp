@@ -1,0 +1,38 @@
+{
+  "header": {
+    "language": {
+      "polish": "Polski",
+      "english": "Angielski"
+    },
+    "user": {
+      "profile": "Profil",
+      "logout": "Wyloguj"
+    }
+  },
+  "sidebar": {
+    "home": "Główna",
+    "dashboard": "Dashboard",
+    "users": "Użytkownicy"
+  },
+  "view": {
+    "profile": {
+      "header": "Profil",
+      "account-info": {
+        "header": "Informacje o koncie",
+        "name": "Imię i nazwisko",
+        "preferred-username": "Nazwa użytkownika",
+        "email": "Email",
+        "email-verified": "Weryfikacja email"
+      },
+      "address": {
+        "header": "Adres",
+        "street": "Ulica",
+        "building-no": "Nr budynku",
+        "local-no": "Nr lokalu",
+        "postal-code": "Kod pocztowy",
+        "city": "Miasto",
+        "country": "Kraj"
+      }
+    }
+  }
+}

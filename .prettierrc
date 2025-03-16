@@ -1,6 +1,7 @@
 {
   "singleQuote": true,
   "printWidth": 140,
+  "endOfLine": "lf",
   "plugins": ["prettier-plugin-tailwindcss"],
   "overrides": [
     {
