@@ -1,80 +1,76 @@
-<div class="flex h-screen flex-nowrap">
+<div class="flex h-screen flex-col overflow-hidden">
   <div
-    [class]="
-      (layoutService.isSidebarVisible() ? 'ml-0' : '-ml-[300px]') +
-      ' hidden h-full w-[300px] flex-col overflow-hidden transition-all duration-200 ease-out md:flex'
-    "
+    class="topbar bg-surface-100 dark:bg-surface-900 fixed flex h-16 w-full items-center justify-between px-6"
   >
-    <div class="bg-surface-100 dark:bg-surface-900 w-full">
-      <a class="flex gap-4 p-4" routerLink="/">
-        <i class="pi pi-user" style="font-size: 2rem"></i>
-        <span class="text-2xl">ZenithERP</span>
-      </a>
+    <div>
+      <p-button
+        [icon]="
+          layoutService.isSidebarVisible() && !layoutService.isMobile()
+            ? 'pi pi-chevron-left'
+            : 'pi pi-chevron-right'
+        "
+        [rounded]="true"
+        [text]="true"
+        severity="secondary"
+        (onClick)="layoutService.toggleSidebar()"
+      />
     </div>
+    <div>
+      <p-button
+        [icon]="layoutService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+        [rounded]="true"
+        [text]="true"
+        severity="secondary"
+        (onClick)="layoutService.toggleTheme()"
+      />
+      <p-button
+        icon="pi pi-cog"
+        [rounded]="true"
+        [text]="true"
+        severity="secondary"
+      />
+      <p-button
+        icon="pi pi-user"
+        [rounded]="true"
+        [text]="true"
+        severity="secondary"
+        (onClick)="profile.toggle($event)"
+      />
+      <p-menu #profile [model]="profileItems" [popup]="true" />
+    </div>
+  </div>
+  <div class="sidebar-content flex h-full flex-nowrap pt-16">
     <div
-      class="bg-surface-100 dark:bg-surface-900 mt-4 mb-4 ml-4 flex h-full flex-1 overflow-hidden rounded-md px-4 py-2"
+      [class]="
+        (layoutService.isSidebarVisible() ? 'ml-0' : '-ml-[300px]') +
+        ' hidden h-full w-[300px] flex-col overflow-hidden transition-all duration-200 ease-out md:flex'
+      "
     >
-      <ng-container *ngTemplateOutlet="sidebar" />
-    </div>
-  </div>
-  <div class="h-full flex-1 overflow-hidden">
-    <div class="mx-auto my-0 flex h-full max-w-[1540px] flex-col">
       <div
-        class="bg-surface-100 dark:bg-surface-900 static flex h-16 w-full items-center justify-between px-6 py-2"
+        class="bg-surface-100 dark:bg-surface-900 mt-4 mb-4 ml-4 flex h-full flex-1 overflow-hidden rounded-md px-4 py-2"
       >
-        <div>
-          <p-button
-            [icon]="
-              layoutService.isSidebarVisible() && !layoutService.isMobile()
-                ? 'pi pi-chevron-left'
-                : 'pi pi-chevron-right'
-            "
-            [rounded]="true"
-            [text]="true"
-            severity="secondary"
-            (onClick)="layoutService.toggleSidebar()"
-          />
-        </div>
-        <div>
-          <p-button
-            [icon]="layoutService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-            [rounded]="true"
-            [text]="true"
-            severity="secondary"
-            (onClick)="layoutService.toggleTheme()"
-          />
-          <p-button
-            icon="pi pi-cog"
-            [rounded]="true"
-            [text]="true"
-            severity="secondary"
-          />
-          <p-button
-            icon="pi pi-user"
-            [rounded]="true"
-            [text]="true"
-            severity="secondary"
-            (onClick)="profile.toggle($event)"
-          />
-          <p-menu #profile [model]="profileItems" [popup]="true" />
-        </div>
-      </div>
-      <div class="m-4">
-        <router-outlet />
-      </div>
-    </div>
-  </div>
-</div>
-
-@if (layoutService.isMobile()) {
-  <p-drawer #drawerRef [(visible)]="layoutService.isSidebarVisiblePlain">
-    <ng-template #headless>
-      <div class="mx-4">
         <ng-container *ngTemplateOutlet="sidebar" />
       </div>
-    </ng-template>
-  </p-drawer>
-}
+    </div>
+    <div class="h-full flex-1 overflow-hidden">
+      <div class="mx-auto my-0 flex h-full max-w-[1540px] flex-col">
+        <div class="m-4">
+          <router-outlet />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (layoutService.isMobile()) {
+    <p-drawer #drawerRef [(visible)]="layoutService.isSidebarVisiblePlain">
+      <ng-template #headless>
+        <div class="mx-4">
+          <ng-container *ngTemplateOutlet="sidebar" />
+        </div>
+      </ng-template>
+    </p-drawer>
+  }
+</div>
 
 <ng-template #sidebar>
   <ul class="w-full overflow-auto">
