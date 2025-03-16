@@ -107,10 +107,7 @@ export class KeycloakEventsService implements OnModuleInit {
     const currentWebhooks = await this.getWebhooks();
     const url = `${this.keycloakUrl}/realms/zenith-realm/webhooks`;
 
-    if (
-      currentWebhooks.length > 0
-      && currentWebhooks.some((w) => w.url === body.url)
-    ) {
+    if (currentWebhooks.length > 0 && currentWebhooks.some((w) => w.url === body.url)) {
       return;
     }
 
@@ -129,9 +126,7 @@ export class KeycloakEventsService implements OnModuleInit {
   }
 
   // access.REGISTER
-  public async handleAccessRegisterEvent(
-    payload: AccessRegisterEntity,
-  ): Promise<void> {
+  public async handleAccessRegisterEvent(payload: AccessRegisterEntity): Promise<void> {
     const {
       authDetails: { userId },
     } = payload;
@@ -140,18 +135,14 @@ export class KeycloakEventsService implements OnModuleInit {
   }
 
   // admin.USER-CREATE
-  public async handleAdminUserCreateEvent(
-    payload: AdminUserCreateEntity,
-  ): Promise<void> {
+  public async handleAdminUserCreateEvent(payload: AdminUserCreateEntity): Promise<void> {
     const { newUserId } = plainToInstance(AdminUserCreateEntity, payload);
 
     await this.usersService.create({ keycloakId: newUserId });
   }
 
   // admin.USER-DELETE
-  public async handleAdminUserDeleteEvent(
-    payload: AdminUserDeleteEntity,
-  ): Promise<void> {
+  public async handleAdminUserDeleteEvent(payload: AdminUserDeleteEntity): Promise<void> {
     const {
       details: { userId },
     } = plainToInstance(AdminUserDeleteEntity, payload);

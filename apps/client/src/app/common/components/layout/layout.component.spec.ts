@@ -1,18 +1,23 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LogLevel, provideAuth, withAppInitializerAuthCheck } from 'angular-auth-oidc-client';
 
-import { environment } from '../environments/environment';
-import { AppComponent } from './app.component';
+import { environment } from '../../../../environments/environment';
+import { LayoutComponent } from './layout.component';
 
-describe('AppComponent', () => {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
+describe('LayoutComponent', () => {
+  let component: LayoutComponent;
+  let fixture: ComponentFixture<LayoutComponent>;
+
+  const fakeActivatedRoute = {
+    snapshot: {},
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [LayoutComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -34,11 +39,11 @@ describe('AppComponent', () => {
           },
           withAppInitializerAuthCheck(),
         ),
+        { provide: ActivatedRoute, useValue: fakeActivatedRoute },
       ],
-      imports: [AppComponent, RouterModule.forRoot([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AppComponent);
+    fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

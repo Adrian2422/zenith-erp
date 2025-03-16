@@ -61,14 +61,7 @@ export default [
       '@typescript-eslint/naming-convention': [
         'error',
         {
-          selector: [
-            'classProperty',
-            'typeProperty',
-            'classMethod',
-            'objectLiteralMethod',
-            'typeMethod',
-            'accessor',
-          ],
+          selector: ['classProperty', 'typeProperty', 'classMethod', 'objectLiteralMethod', 'typeMethod', 'accessor'],
           format: ['strictCamelCase'],
           leadingUnderscore: 'allow',
         },

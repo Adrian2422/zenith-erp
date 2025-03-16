@@ -22,23 +22,17 @@ export class KeycloakEventsController {
   }
 
   @Post('access-register')
-  public async handleAccessRegisterEvent(
-    @Body() payload: AccessRegisterEntity,
-  ): Promise<void> {
+  public async handleAccessRegisterEvent(@Body() payload: AccessRegisterEntity): Promise<void> {
     await this.webhooksService.handleAccessRegisterEvent(payload);
   }
 
   @Post('admin-user-create')
-  public async handleAdminUserCreateEvent(
-    @Body() payload: AdminUserCreateEntity,
-  ): Promise<void> {
+  public async handleAdminUserCreateEvent(@Body() payload: AdminUserCreateEntity): Promise<void> {
     await this.webhooksService.handleAdminUserCreateEvent(payload);
   }
 
   @Post('admin-user-delete')
-  public async handleAdminUserDeleteEvent(
-    @Body() payload: AdminUserDeleteEntity,
-  ): Promise<void> {
+  public async handleAdminUserDeleteEvent(@Body() payload: AdminUserDeleteEntity): Promise<void> {
     await this.webhooksService.handleAdminUserDeleteEvent(payload);
   }
 }

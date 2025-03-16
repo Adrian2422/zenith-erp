@@ -1,19 +1,11 @@
-import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+
+import { LayoutComponent } from './common/components/layout/layout.component';
 
 @Component({
-  imports: [RouterModule, AsyncPipe],
+  imports: [RouterModule, LayoutComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  public readonly oidc = inject(OidcSecurityService);
-  public readonly http = inject(HttpClient);
-
-  public logout(): void {
-    this.oidc.logoff().subscribe((result) => console.log(result));
-  }
-}
+export class AppComponent {}

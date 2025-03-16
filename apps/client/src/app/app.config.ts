@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import {
   AbstractSecurityStorage,
@@ -8,9 +9,11 @@ import {
   provideAuth,
   withAppInitializerAuthCheck,
 } from 'angular-auth-oidc-client';
+import { providePrimeNG } from 'primeng/config';
 
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
+import { theme } from './common/config/theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,6 +39,15 @@ export const appConfig: ApplicationConfig = {
       provide: AbstractSecurityStorage,
       useClass: DefaultLocalStorageService,
     },
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: theme,
+        options: {
+          darkModeSelector: '.dark',
+        },
+      },
+    }),
     provideHttpClient(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),

@@ -34,30 +34,14 @@ export default [
       'simple-import-sort/imports': [
         'error',
         {
-          groups: [
-            ['^\\u0000'],
-            ['^@?(?!app)\\w'],
-            ['^@app?\\w'],
-            ['^\\w'],
-            ['^[^.]'],
-            ['^\\.'],
-          ],
+          groups: [['^\\u0000'], ['^@?(?!app)\\w'], ['^@app?\\w'], ['^\\w'], ['^[^.]'], ['^\\.']],
         },
       ],
       'simple-import-sort/exports': 'error',
     },
   },
   {
-    files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
+    files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
     // Override or add rules here
     rules: {},
   },
