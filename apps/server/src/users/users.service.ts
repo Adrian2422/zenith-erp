@@ -3,15 +3,15 @@ import {
   AddressEntity,
   CreateUserDto,
   SettingsEntity,
+  UpdateAddressDto,
   UpdateLanguageDto,
   UpdateThemeDto,
-  UserEntity
+  UserEntity,
 } from '@zenith-erp/shared-types';
 import { plainToInstance } from 'class-transformer';
 import { CustomPrismaService } from 'nestjs-prisma';
 
 import { type ExtendedPrismaClient } from '../app/prisma.extension';
-import { UpdateAddressDto } from '../../../../libs/shared-types/src/lib/users/dto/update-address.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Injectable()
@@ -157,7 +157,7 @@ export class UsersService {
         .update({
           where: { userId: user.userId },
           data: {
-            ...dto
+            ...dto,
           },
         })
         .then((address) => plainToInstance(AddressEntity, address));

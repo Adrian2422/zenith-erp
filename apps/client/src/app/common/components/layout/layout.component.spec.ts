@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { LogLevel, provideAuth, withAppInitializerAuthCheck } from 'angular-auth-oidc-client';
 import { TranslateTestingModule } from 'ngx-translate-testing';
+import { MessageService } from 'primeng/api';
 
 import { environment } from '../../../../environments/environment';
 import { LayoutComponent } from './layout.component';
@@ -40,6 +41,7 @@ describe('LayoutComponent', () => {
           },
           withAppInitializerAuthCheck(),
         ),
+        MessageService,
         { provide: ActivatedRoute, useValue: fakeActivatedRoute },
       ],
     }).compileComponents();

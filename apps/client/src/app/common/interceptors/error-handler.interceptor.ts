@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { catchError, throwError } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
   const messageService = inject(MessageService);

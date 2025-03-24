@@ -7,7 +7,7 @@ import {
   UpdateAddressDto,
   UpdateLanguageDto,
   UpdateThemeDto,
-  UserEntity
+  UserEntity,
 } from '@zenith-erp/shared-types';
 
 import { CurrentUser } from '../common/decorators/current-user.decorator';

@@ -2,7 +2,7 @@ import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { Drawer } from 'primeng/drawer';
 import { Toast } from 'primeng/toast';
@@ -29,7 +29,6 @@ export class LayoutComponent implements OnInit {
     this.initializeTheme();
     this.layoutService.registerWidthListener();
     this.translate.onLangChange.subscribe((_) => {
-      console.log('LayoutComponent ', _);
       this.sidebarItems.set([
         {
           label: this.translate.instant(this.translateBase + '.home'),

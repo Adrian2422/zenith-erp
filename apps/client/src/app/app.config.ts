@@ -10,15 +10,15 @@ import {
   provideAuth,
   withAppInitializerAuthCheck,
 } from 'angular-auth-oidc-client';
+import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { createTranslateLoader } from './common/config/i18n.config';
 import { theme } from './common/config/theme';
-import { tokenInterceptor } from './common/interceptors/token.interceptor';
-import { MessageService } from 'primeng/api';
 import { errorHandlerInterceptor } from './common/interceptors/error-handler.interceptor';
+import { tokenInterceptor } from './common/interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
