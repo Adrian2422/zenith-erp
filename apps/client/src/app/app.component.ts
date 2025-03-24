@@ -1,7 +1,6 @@
 import { Component, inject, LOCALE_ID, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 import { LayoutComponent } from './common/components/layout/layout.component';
 
@@ -11,14 +10,11 @@ import { LayoutComponent } from './common/components/layout/layout.component';
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  private readonly oidcSecurityService = inject(OidcSecurityService);
   private readonly browserLanguage = inject(LOCALE_ID);
   private readonly translate = inject(TranslateService);
 
   public ngOnInit(): void {
-    this.oidcSecurityService.checkAuth().subscribe((_) => {
-      this.initTranslations();
-    });
+    this.initTranslations();
   }
 
   private initTranslations(): void {

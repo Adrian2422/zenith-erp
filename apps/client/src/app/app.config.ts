@@ -17,9 +17,12 @@ import { appRoutes } from './app.routes';
 import { createTranslateLoader } from './common/config/i18n.config';
 import { theme } from './common/config/theme';
 import { tokenInterceptor } from './common/interceptors/token.interceptor';
+import { MessageService } from 'primeng/api';
+import { errorHandlerInterceptor } from './common/interceptors/error-handler.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {
@@ -41,6 +44,7 @@ export const appConfig: ApplicationConfig = {
           responseType: 'code',
           silentRenew: true,
           useRefreshToken: true,
+          renewTimeBeforeTokenExpiresInSeconds: 30,
           startCheckSession: true,
           logLevel: LogLevel.Warn,
         },
@@ -60,7 +64,7 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(withInterceptors([tokenInterceptor])),
+    provideHttpClient(withInterceptors([tokenInterceptor, errorHandlerInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
   ],

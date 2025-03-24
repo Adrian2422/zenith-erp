@@ -1,0 +1,32 @@
+<div class="flex flex-col gap-4">
+  <div class="grid grid-cols-2 gap-4" [formGroup]="form">
+    <div class="flex flex-col justify-between">
+      <label [htmlFor]="'street'" class="text-surface-500">{{ translateBase + '.address.street' | translate }}</label>
+      <input type="text" id="street" name="street" pInputText formControlName="street" />
+    </div>
+    <div class="flex flex-col justify-between">
+      <label [htmlFor]="'buildingNo'" class="text-surface-500">{{ translateBase + '.address.building-no' | translate }}</label>
+      <input type="text" id="buildingNo" name="buildingNo" pInputText formControlName="buildingNo" />
+    </div>
+    <div class="flex flex-col justify-between">
+      <label [htmlFor]="'localNo'" class="text-surface-500">{{ translateBase + '.address.local-no' | translate }}</label>
+      <input type="text" id="localNo" name="localNo" pInputText formControlName="localNo" />
+    </div>
+    <div class="flex flex-col justify-between">
+      <label [htmlFor]="'postalCode'" class="text-surface-500">{{ translateBase + '.address.postal-code' | translate }}</label>
+      <input type="text" id="postalCode" name="postalCode" pInputText formControlName="postalCode" />
+    </div>
+    <div class="flex flex-col justify-between">
+      <label [htmlFor]="'city'" class="text-surface-500">{{ translateBase + '.address.city' | translate }}</label>
+      <input type="text" id="city" name="city" pInputText formControlName="city" />
+    </div>
+    <div class="flex flex-col justify-between">
+      <label [htmlFor]="'country'" class="text-surface-500">{{ translateBase + '.address.country' | translate }}</label>
+      <input type="text" id="country" name="country" pInputText formControlName="country" />
+    </div>
+  </div>
+  <div class="flex w-full justify-between">
+    <p-button variant="outlined" severity="secondary" [label]="'common.cancel' | translate" (onClick)="close()" />
+    <p-button [label]="'common.save' | translate" (onClick)="save()" />
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { UserEntity } from '@zenith-erp/shared-types';
+import { UpdateAddressDto, UpdateLanguageDto, UpdateThemeDto, UserEntity } from '@zenith-erp/shared-types';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -22,5 +22,17 @@ export class UsersService {
 
   public usersDelete(id: string): Observable<UserEntity> {
     return this.httpClient.delete<UserEntity>(`${this.urlBase}/${id}`);
+  }
+
+  public usersUpdateLanguage(language: UpdateLanguageDto): Observable<void> {
+    return this.httpClient.patch<void>(`${this.urlBase}/language`, language);
+  }
+
+  public usersUpdateTheme(theme: UpdateThemeDto): Observable<void> {
+    return this.httpClient.patch<void>(`${this.urlBase}/theme`, theme);
+  }
+
+  public usersUpdateAddress(address: UpdateAddressDto): Observable<void> {
+    return this.httpClient.patch<void>(`${this.urlBase}/address`, address);
   }
 }

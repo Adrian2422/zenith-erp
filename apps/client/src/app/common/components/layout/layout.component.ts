@@ -2,16 +2,17 @@ import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { Drawer } from 'primeng/drawer';
+import { Toast } from 'primeng/toast';
 
 import { LayoutService } from '../../services/layout.service';
 import { TopbarComponent } from '../topbar/topbar.component';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Drawer, NgTemplateOutlet, NgOptimizedImage, TopbarComponent, Breadcrumb],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Drawer, NgTemplateOutlet, NgOptimizedImage, TopbarComponent, Breadcrumb, Toast],
   providers: [LayoutService],
   templateUrl: './layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

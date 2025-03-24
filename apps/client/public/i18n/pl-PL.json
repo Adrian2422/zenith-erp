@@ -1,4 +1,15 @@
 {
+  "common": {
+    "save": "Zapisz",
+    "cancel": "Anuluj"
+  },
+  "error": {
+    "0": "\uD83D\uDEA8 Błąd sieciowy! Sprawdź połączenie internetowe.",
+    "500": "\uD83D\uDD25 Błąd serwera! Spróbuj ponownie później.",
+    "404": "⚠\uFE0F Nie znaleziono żądanego zasobu!",
+    "401": "\uD83D\uDD12 Nieautoryzowany! Zaloguj się ponownie.",
+    "unknown": "❌ Wystąpił błąd: "
+  },
   "header": {
     "language": {
       "polish": "Polski",
@@ -22,16 +33,24 @@
         "name": "Imię i nazwisko",
         "preferred-username": "Nazwa użytkownika",
         "email": "Email",
-        "email-verified": "Weryfikacja email"
+        "email-verified": {
+          "label": "Weryfikacja email",
+          "true": "Zweryfikowany",
+          "false": "Niezweryfikowany"
+        }
       },
       "address": {
         "header": "Adres",
+        "button": "Zaktualizuj dane adresowe",
         "street": "Ulica",
         "building-no": "Nr budynku",
         "local-no": "Nr lokalu",
         "postal-code": "Kod pocztowy",
         "city": "Miasto",
         "country": "Kraj"
+      },
+      "form": {
+        "header": "Zaktualizuj dane adresowe"
       }
     }
   }

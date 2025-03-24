@@ -20,7 +20,7 @@
       [rounded]="true"
       [text]="true"
       severity="secondary"
-      (onClick)="layoutService.toggleTheme()"
+      (onClick)="changeTheme(layoutService.isDarkMode() ? 'light' : 'dark')"
     />
     <p-button icon="pi pi-language" [rounded]="true" [text]="true" severity="secondary" (onClick)="language.toggle($event)" />
     <p-menu #language [model]="languageButtonItems()" [popup]="true" />

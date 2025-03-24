@@ -6,7 +6,9 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { MenuItem } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
+import { switchMap } from 'rxjs';
 
+import { UsersService } from '../../api/users.service';
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
@@ -20,13 +22,14 @@ export class TopbarComponent implements OnInit {
   public readonly layoutService = inject(LayoutService);
   public readonly translate = inject(TranslateService);
   public readonly oidc = inject(OidcSecurityService);
+  public readonly usersService = inject(UsersService);
 
   public readonly translateBase = 'header';
   public languageButtonItems = signal<MenuItem[]>([]);
   public accountButtonItems = signal<MenuItem[]>([]);
 
   public ngOnInit(): void {
-    this.translate.onLangChange.subscribe((_) => {
+    this.translate.onLangChange.pipe(switchMap(({ lang }) => this.usersService.usersUpdateLanguage({ language: lang }))).subscribe((_) => {
       this.languageButtonItems.set([
         {
           label: this.translate.instant(this.translateBase + '.language.polish'),
@@ -59,6 +62,12 @@ export class TopbarComponent implements OnInit {
           },
         },
       ]);
+    });
+  }
+
+  public changeTheme(theme: string): void {
+    this.usersService.usersUpdateTheme({ theme }).subscribe(() => {
+      this.layoutService.toggleTheme();
     });
   }
 }

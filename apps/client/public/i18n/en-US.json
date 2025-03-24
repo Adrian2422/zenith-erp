@@ -1,4 +1,15 @@
 {
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "error": {
+    "0": "\uD83D\uDEA8 Network error! Please check your internet connection.",
+    "500": "\uD83D\uDD25 Server error! Please try again later.",
+    "404": "⚠\uFE0F Requested resource not found!",
+    "401": "\uD83D\uDD12 Unauthorized! Please log in again.",
+    "unknown": "❌ An error occurred: "
+  },
   "header": {
     "language": {
       "polish": "Polish",
@@ -22,16 +33,24 @@
         "name": "Name and surname",
         "preferred-username": "Username",
         "email": "Email",
-        "email-verified": "Email verified"
+        "email-verified": {
+          "label": "Email verified",
+          "true": "Verified",
+          "false": "Unverified"
+        }
       },
       "address": {
         "header": "Address",
+        "button": "Update address info",
         "street": "Street",
         "building-no": "Building no",
         "local-no": "Local no",
         "postal-code": "Postal code",
         "city": "City",
         "country": "Country"
+      },
+      "form": {
+        "header": "Update address info"
       }
     }
   }
