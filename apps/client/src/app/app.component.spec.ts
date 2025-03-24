@@ -3,6 +3,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { LogLevel, provideAuth, withAppInitializerAuthCheck } from 'angular-auth-oidc-client';
+import { TranslateTestingModule } from 'ngx-translate-testing';
+import { MessageService } from 'primeng/api';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -13,6 +15,7 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [AppComponent, RouterModule.forRoot([]), TranslateTestingModule.withTranslations({})],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -34,8 +37,8 @@ describe('AppComponent', () => {
           },
           withAppInitializerAuthCheck(),
         ),
+        MessageService,
       ],
-      imports: [AppComponent, RouterModule.forRoot([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

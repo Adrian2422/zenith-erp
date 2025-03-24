@@ -1,0 +1,66 @@
+<div class="flex flex-col gap-y-4">
+  <app-card>
+    <h3 class="text-2xl">{{ translateBase + '.account-info.header' | translate }}</h3>
+    <span class="bg-surface-300 my-4 block h-[1px] w-full"></span>
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div class="flex flex-col justify-between">
+        <span class="text-surface-500">{{ translateBase + '.account-info.name' | translate }}</span>
+        <span>{{ kcUserData().name }}</span>
+      </div>
+      <div class="flex flex-col justify-between">
+        <span class="text-surface-500">{{ translateBase + '.account-info.preferred-username' | translate }}</span>
+        <span>{{ kcUserData().preferred_username }}</span>
+      </div>
+      <div class="flex flex-col justify-between">
+        <span class="text-surface-500">{{ translateBase + '.account-info.email' | translate }}</span>
+        <span>{{ kcUserData().email }}</span>
+      </div>
+      <div class="flex flex-col justify-between">
+        <span class="text-surface-500">{{ translateBase + '.account-info.email-verified.label' | translate }}</span>
+        <span>
+          @if (kcUserData().email_verified) {
+            <p-tag icon="pi pi-check" severity="success" [value]="translateBase + '.account-info.email-verified.true' | translate" />
+          } @else {
+            <p-tag icon="pi pi-times" severity="danger" [value]="translateBase + '.account-info.email-verified.false' | translate" />
+          }
+        </span>
+      </div>
+    </div>
+  </app-card>
+  @let apiUserData = apiUserDataRx.value();
+  @if (apiUserData) {
+    <app-card>
+      <div class="flex justify-between">
+        <h3 class="text-2xl">{{ translateBase + '.address.header' | translate }}</h3>
+        <p-button variant="outlined" [label]="translateBase + '.address.button' | translate" (onClick)="openAddressForm()" />
+      </div>
+      <span class="bg-surface-300 my-4 block h-[1px] w-full"></span>
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div class="flex flex-col justify-between">
+          <span class="text-surface-500">{{ translateBase + '.address.street' | translate }}</span>
+          <span>{{ apiUserData.address.street || '-' }}</span>
+        </div>
+        <div class="flex flex-col justify-between">
+          <span class="text-surface-500">{{ translateBase + '.address.building-no' | translate }}</span>
+          <span>{{ apiUserData.address.buildingNo || '-' }}</span>
+        </div>
+        <div class="flex flex-col justify-between">
+          <span class="text-surface-500">{{ translateBase + '.address.local-no' | translate }}</span>
+          <span>{{ apiUserData.address.localNo || '-' }}</span>
+        </div>
+        <div class="flex flex-col justify-between">
+          <span class="text-surface-500">{{ translateBase + '.address.postal-code' | translate }}</span>
+          <span>{{ apiUserData.address.postalCode || '-' }}</span>
+        </div>
+        <div class="flex flex-col justify-between">
+          <span class="text-surface-500">{{ translateBase + '.address.city' | translate }}</span>
+          <span>{{ apiUserData.address.city || '-' }}</span>
+        </div>
+        <div class="flex flex-col justify-between">
+          <span class="text-surface-500">{{ translateBase + '.address.country' | translate }}</span>
+          <span>{{ apiUserData.address.country || '-' }}</span>
+        </div>
+      </div>
+    </app-card>
+  }
+</div>

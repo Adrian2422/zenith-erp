@@ -8,4 +8,10 @@ export const appRoutes: Route[] = [
     canActivate: [isAuthenticatedGuard],
     loadComponent: () => import('./views/dashboard/dashboard.component').then((c) => c.DashboardComponent),
   },
+  {
+    path: 'profile',
+    canActivate: [isAuthenticatedGuard],
+    loadComponent: () => import('./views/profile/profile.component').then((c) => c.ProfileComponent),
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

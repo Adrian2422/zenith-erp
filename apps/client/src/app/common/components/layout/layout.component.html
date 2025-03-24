@@ -14,7 +14,11 @@
     <div class="h-full flex-1 overflow-hidden">
       <div class="mx-auto my-0 flex h-full max-w-[1540px] flex-col">
         <div class="m-4">
+          <div class="mb-4">
+            <p-breadcrumb styleClass="rounded-md" [model]="layoutService.breadcrumbConfig()" [home]="home" />
+          </div>
           <router-outlet />
+          <p-toast />
         </div>
       </div>
     </div>
@@ -37,7 +41,7 @@
 
 <ng-template #sidebar>
   <ul class="w-full overflow-auto">
-    @for (item of sidebarItems; track item.label; let last = $last) {
+    @for (item of sidebarItems(); track item.label; let last = $last) {
       <li>
         <div class="my-2 text-sm select-none">{{ item.label }}</div>
         <ul class="flex flex-col gap-1">

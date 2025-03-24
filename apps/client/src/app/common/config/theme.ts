@@ -657,4 +657,16 @@ export const theme = definePreset(Aura, {
       },
     },
   },
+  components: {
+    breadcrumb: {
+      colorScheme: {
+        light: {
+          background: '{surface.100}',
+        },
+        dark: {
+          background: '{surface.900}',
+        },
+      },
+    },
+  },
 });
