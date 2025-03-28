@@ -1,16 +1,16 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { Settings } from '@prisma/client';
+import { EmployeeSettings } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class SettingsEntity implements Settings {
+export class EmployeeSettingsEntity implements EmployeeSettings {
   @ApiHideProperty()
   @Exclude()
-  public userId: number;
+  public employeeId: string;
 
   @ApiHideProperty()
   @Exclude()
-  public settingsId: number;
+  public id: string;
 
   @ApiProperty()
   @IsString()
@@ -22,7 +22,15 @@ export class SettingsEntity implements Settings {
   @IsNotEmpty()
   public language: string;
 
-  constructor(partial: Partial<SettingsEntity>) {
+  @ApiHideProperty()
+  @Exclude()
+  createdAt: Date;
+
+  @ApiHideProperty()
+  @Exclude()
+  updatedAt: Date;
+
+  constructor(partial: Partial<EmployeeSettingsEntity>) {
     Object.assign(this, partial);
   }
 }

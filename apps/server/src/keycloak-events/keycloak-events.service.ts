@@ -4,7 +4,7 @@ import { plainToInstance } from 'class-transformer';
 import { firstValueFrom } from 'rxjs';
 
 import { decodeToken } from '../common/jwt.utils';
-import { UsersService } from '../users/users.service';
+import { EmployeesService } from '../employees/employees.service';
 import { CreateWebhookDto } from './dto/create-webhook.dto';
 import { AccessRegisterEntity } from './entities/access-register.entity';
 import { AdminUserCreateEntity } from './entities/admin-user-create.entity';
@@ -24,7 +24,7 @@ export class KeycloakEventsService implements OnModuleInit {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly usersService: UsersService,
+    private readonly employeesService: EmployeesService,
   ) {
     this.targetUrl = process.env.KEYCLOAK_EVENTS_TARGET_URL;
     this.keycloakUrl = process.env.KEYCLOAK_URL;
@@ -127,18 +127,29 @@ export class KeycloakEventsService implements OnModuleInit {
 
   // access.REGISTER
   public async handleAccessRegisterEvent(payload: AccessRegisterEntity): Promise<void> {
-    const {
+    const { details: { firstName, lastName, email } ,
       authDetails: { userId },
     } = payload;
 
-    await this.usersService.create({ keycloakId: userId });
+    await this.employeesService.create({
+      keycloakId: userId,
+      firstName,
+      lastName,
+      email
+    });
   }
 
   // admin.USER-CREATE
   public async handleAdminUserCreateEvent(payload: AdminUserCreateEntity): Promise<void> {
-    const { newUserId } = plainToInstance(AdminUserCreateEntity, payload);
+    const { newUserId, representation } = plainToInstance(AdminUserCreateEntity, payload);
+    const { firstName, lastName, email } = JSON.parse(representation);
 
-    await this.usersService.create({ keycloakId: newUserId });
+    await this.employeesService.create({
+      keycloakId: newUserId,
+      firstName,
+      lastName,
+      email
+    });
   }
 
   // admin.USER-DELETE
@@ -147,6 +158,6 @@ export class KeycloakEventsService implements OnModuleInit {
       details: { userId },
     } = plainToInstance(AdminUserDeleteEntity, payload);
 
-    await this.usersService.remove(userId);
+    await this.employeesService.remove(userId);
   }
 }

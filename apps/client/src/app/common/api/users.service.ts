@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { UpdateAddressDto, UpdateLanguageDto, UpdateThemeDto, UserEntity } from '@zenith-erp/shared-types';
+import { UpdateAddressDto, UpdateLanguageDto, UpdateThemeDto, EmployeeEntity } from '@zenith-erp/shared-types';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -12,16 +12,16 @@ export class UsersService {
   private readonly urlBase = `${environment.apiUrl}/users`;
   private readonly httpClient = inject(HttpClient);
 
-  public usersGetAll(): Observable<UserEntity[]> {
-    return this.httpClient.get<UserEntity[]>(this.urlBase);
+  public usersGetAll(): Observable<EmployeeEntity[]> {
+    return this.httpClient.get<EmployeeEntity[]>(this.urlBase);
   }
 
-  public usersGet(id: string): Observable<UserEntity> {
-    return this.httpClient.get<UserEntity>(`${this.urlBase}/${id}`);
+  public usersGet(id: string): Observable<EmployeeEntity> {
+    return this.httpClient.get<EmployeeEntity>(`${this.urlBase}/${id}`);
   }
 
-  public usersDelete(id: string): Observable<UserEntity> {
-    return this.httpClient.delete<UserEntity>(`${this.urlBase}/${id}`);
+  public usersDelete(id: string): Observable<EmployeeEntity> {
+    return this.httpClient.delete<EmployeeEntity>(`${this.urlBase}/${id}`);
   }
 
   public usersUpdateLanguage(language: UpdateLanguageDto): Observable<void> {

@@ -1,0 +1,93 @@
+model PendingEmployee {
+  id         String @id @default(uuid())
+  keycloakId String @unique
+  firstName  String
+  lastName   String
+  email      String @unique
+
+  @@schema("staff")
+}
+
+model Employee {
+  id                 String              @id @default(uuid())
+  keycloakId         String              @unique
+  firstName          String
+  lastName           String
+  email              String              @unique
+  phoneNumber        String?
+  position           String
+  department         Department          @relation(fields: [departmentId], references: [id])
+  departmentId       String
+  salary             Decimal
+  hireDate           DateTime
+  terminationDate    DateTime?
+  status             EmployeeStatus      @default(ACTIVE)
+  workSchedule       WorkSchedule[]
+  performanceReviews PerformanceReview[]
+  trainings          TrainingRecord[]
+  settings           EmployeeSettings?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@schema("staff")
+}
+
+model EmployeeSettings {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String   @unique
+  language   String   @default("pl-PL")
+  theme      String   @default("light")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@schema("staff")
+}
+
+model Department {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  employees Employee[]
+
+  @@schema("staff")
+}
+
+model WorkSchedule {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String
+  date       DateTime
+  shift      String
+
+  @@schema("staff")
+}
+
+model PerformanceReview {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String
+  reviewDate DateTime
+  rating     Int
+  comments   String?
+
+  @@schema("staff")
+}
+
+model TrainingRecord {
+  id             String   @id @default(uuid())
+  employee       Employee @relation(fields: [employeeId], references: [id])
+  employeeId     String
+  trainingName   String
+  completionDate DateTime
+  certification  String?
+
+  @@schema("staff")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  TERMINATED
+
+  @@schema("staff")
+}

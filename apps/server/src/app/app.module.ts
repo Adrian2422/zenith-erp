@@ -4,8 +4,8 @@ import { CustomPrismaModule } from 'nestjs-prisma';
 
 import { AuthModule } from '../auth/auth.module';
 import { HttpLoggerInterceptor } from '../common/interceptors/http-logger/http-logger.interceptor';
+import { EmployeesModule } from '../employees/employees.module';
 import { KeycloakEventsModule } from '../keycloak-events/keycloak-events.module';
-import { UsersModule } from '../users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { extendedPrismaClient } from './prisma.extension';
@@ -20,7 +20,7 @@ import { extendedPrismaClient } from './prisma.extension';
       },
     }),
     AuthModule,
-    UsersModule,
+    EmployeesModule,
     KeycloakEventsModule,
   ],
   controllers: [AppController],
